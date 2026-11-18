@@ -1,0 +1,475 @@
+{
+  "before": {
+    "commands": [
+      {
+        "index": 0,
+        "argv": [
+          "display_msg",
+          "Starting the telemetry console"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {},
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 4,
+          "end_line": null
+        },
+        "raw": "    display_msg \"Starting the telemetry console\"",
+        "section": "startup"
+      },
+      {
+        "index": 1,
+        "argv": [
+          "devc-ser8250",
+          "-e",
+          "-b",
+          "115200",
+          "0x3f8,4"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "20f"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 6,
+          "end_line": null
+        },
+        "raw": "    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &",
+        "section": "startup"
+      },
+      {
+        "index": 2,
+        "argv": [
+          "waitfor",
+          "/dev/ser1",
+          "5.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/ser1 5.0",
+        "section": "startup"
+      },
+      {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      {
+        "index": 5,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "3.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 3.0",
+        "section": "startup"
+      },
+      {
+        "index": 6,
+        "argv": [
+          "ksh"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": true
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 11,
+          "end_line": null
+        },
+        "raw": "    [+session] ksh &",
+        "section": "startup"
+      }
+    ],
+    "coverage": [],
+    "sources": {
+      "baseline.build": "# Original illustrative QNX 8 startup fragment, not a bootable BSP.\n# The referenced executables are not distributed with this project.\n[+script] telemetry-startup = {\n    display_msg \"Starting the telemetry console\"\n    MODE=production\n    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &\n    waitfor /dev/ser1 5.0\n    reopen /dev/ser1 2.0\n    [pri=10r +critical] telemetry-agent --device /dev/ser1 &\n    waitfor /dev/telemetry 3.0\n    [+session] ksh &\n}\n"
+    },
+    "input": "baseline.build",
+    "root": "<project>/examples",
+    "mode": "buildfile"
+  },
+  "after": {
+    "commands": [
+      {
+        "index": 0,
+        "argv": [
+          "display_msg",
+          "Starting the telemetry console"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {},
+        "background": false,
+        "source": {
+          "file": "corrected.build",
+          "line": 4,
+          "end_line": null
+        },
+        "raw": "    display_msg \"Starting the telemetry console\"",
+        "section": "startup"
+      },
+      {
+        "index": 1,
+        "argv": [
+          "devc-ser8250",
+          "-e",
+          "-b",
+          "115200",
+          "0x3f8,4"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "20f"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "corrected.build",
+          "line": 6,
+          "end_line": null
+        },
+        "raw": "    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &",
+        "section": "startup"
+      },
+      {
+        "index": 2,
+        "argv": [
+          "waitfor",
+          "/dev/ser1",
+          "5.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "corrected.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/ser1 5.0",
+        "section": "startup"
+      },
+      {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "corrected.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "corrected.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      {
+        "index": 5,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "3.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "corrected.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 3.0",
+        "section": "startup"
+      },
+      {
+        "index": 6,
+        "argv": [
+          "ksh"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": true
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "corrected.build",
+          "line": 11,
+          "end_line": null
+        },
+        "raw": "    [+session] ksh &",
+        "section": "startup"
+      }
+    ],
+    "coverage": [],
+    "sources": {
+      "corrected.build": "# Review fixes: restore the serial wait, the intended launch settings,\n# production environment, and the documented timeout policy.\n[+script] telemetry-startup = {\n    display_msg \"Starting the telemetry console\"\n    MODE=production\n    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &\n    waitfor /dev/ser1 5.0\n    reopen /dev/ser1 2.0\n    [pri=10r +critical] telemetry-agent --device /dev/ser1 &\n    waitfor /dev/telemetry 3.0\n    [+session] ksh &\n}\n"
+    },
+    "input": "corrected.build",
+    "root": "<project>/examples",
+    "mode": "buildfile"
+  },
+  "changes": [],
+  "wait_before": {
+    "total_seconds": 10.0,
+    "complete": true,
+    "items": [
+      {
+        "command_index": 2,
+        "command": "waitfor",
+        "source": {
+          "file": "baseline.build",
+          "line": 7,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 5.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 3,
+        "command": "reopen",
+        "source": {
+          "file": "baseline.build",
+          "line": 8,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 2.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 5,
+        "command": "waitfor",
+        "source": {
+          "file": "baseline.build",
+          "line": 10,
+          "end_line": null
+        },
+        "path": "/dev/telemetry",
+        "seconds": 3.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      }
+    ]
+  },
+  "wait_after": {
+    "total_seconds": 10.0,
+    "complete": true,
+    "items": [
+      {
+        "command_index": 2,
+        "command": "waitfor",
+        "source": {
+          "file": "corrected.build",
+          "line": 7,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 5.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 3,
+        "command": "reopen",
+        "source": {
+          "file": "corrected.build",
+          "line": 8,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 2.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 5,
+        "command": "waitfor",
+        "source": {
+          "file": "corrected.build",
+          "line": 10,
+          "end_line": null
+        },
+        "path": "/dev/telemetry",
+        "seconds": 3.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      }
+    ]
+  },
+  "notes": [
+    "High, medium, and low are review priorities, not proven faults or safety ratings.",
+    "The configured wait ceiling sums recognized built-in timeout settings, including the 5.0-second default. It is not measured boot time or a total boot-time bound.",
+    "A successful stat() does not establish that a service is fully ready. After a wait timeout, a dependency may still be unavailable.",
+    "External executable behavior, foreground process termination, and target hardware state are not established by this source comparison.",
+    "Project review contracts were supplied explicitly for this comparison."
+  ],
+  "schema_version": "1.0"
+}

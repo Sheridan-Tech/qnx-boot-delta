@@ -1,0 +1,11 @@
+QNX Boot Delta — startup configuration review
+
+Baseline: baseline.build
+Current:  corrected.build
+Coverage: supported subset complete
+Review priorities: 0 high / 0 medium / 0 low
+Configured built-in wait ceilings: 10 s → 10 s (not measured boot time)
+
+No modeled startup changes found.
+
+Static review only: no SDK compilation, target execution, or boot-time validation.

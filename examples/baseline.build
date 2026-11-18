@@ -1,0 +1,12 @@
+# Original illustrative QNX 8 startup fragment, not a bootable BSP.
+# The referenced executables are not distributed with this project.
+[+script] telemetry-startup = {
+    display_msg "Starting the telemetry console"
+    MODE=production
+    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+    waitfor /dev/ser1 5.0
+    reopen /dev/ser1 2.0
+    [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+    waitfor /dev/telemetry 3.0
+    [+session] ksh &
+}

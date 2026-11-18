@@ -1,0 +1,11 @@
+# Original illustrative QNX 8 startup fragment with intentional regressions.
+# This is an analysis fixture, not a target image or a measured boot.
+[+script] telemetry-startup = {
+    display_msg "Starting the telemetry console"
+    MODE=diagnostic
+    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+    reopen /dev/ser1 2.0
+    waitfor /dev/telemetry 15.0
+    [+session] ksh &
+}

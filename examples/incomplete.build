@@ -1,0 +1,6 @@
+# The external waitfor is deliberately outside the built-in timing model.
+[+script] telemetry-startup = {
+    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+    [+external] waitfor /dev/ser1 5.0 100
+    telemetry-agent --device /dev/ser1 &
+}

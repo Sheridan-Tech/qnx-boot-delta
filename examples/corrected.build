@@ -1,0 +1,12 @@
+# Review fixes: restore the serial wait, the intended launch settings,
+# production environment, and the documented timeout policy.
+[+script] telemetry-startup = {
+    display_msg "Starting the telemetry console"
+    MODE=production
+    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+    waitfor /dev/ser1 5.0
+    reopen /dev/ser1 2.0
+    [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+    waitfor /dev/telemetry 3.0
+    [+session] ksh &
+}

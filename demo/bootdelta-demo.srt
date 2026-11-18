@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:08,000
+We compare the declared startup behavior, then apply an explicit project review contract.
+
+2
+00:00:08,000 --> 00:00:20,000
+The changed configuration increases recognized wait ceilings from 10 to 17 seconds. This is not boot time.
+
+3
+00:00:20,000 --> 00:00:35,000
+The report identifies the removed serial-resource wait and its original source line. A removed wait is a review prompt, not proof of failure.
+
+4
+00:00:35,000 --> 00:00:50,000
+The telemetry wait remains the same resource check, while its configured maximum changes from 3 to 15 seconds.
+
+5
+00:00:50,000 --> 00:01:06,000
+The consumer changes from background to foreground and drops its critical modifier. The analyzer does not infer process lifetime.
+
+6
+00:01:06,000 --> 00:01:22,000
+The policy requires a serial wait before every consumer launch and a configured wait sum no larger than 12 seconds.
+
+7
+00:01:22,000 --> 00:01:34,000
+Restoring the intended declarations produces no modeled differences and passes the explicit review contract.
+
+8
+00:01:34,000 --> 00:01:46,000
+An externally resolved waitfor is not silently treated as the internal command. Incomplete coverage is a distinct CI result.
+
+9
+00:01:46,000 --> 00:01:56,000
+The result is a working host analysis tool. Target integration and competition entry remain separate steps.

@@ -1,0 +1,38 @@
+{
+  "changed": {
+    "exit": 1,
+    "findings": 14,
+    "priorities": {
+      "high": 4,
+      "medium": 10,
+      "low": 0
+    },
+    "before_wait": 10.0,
+    "after_wait": 17.0,
+    "complete": true
+  },
+  "corrected": {
+    "exit": 0,
+    "findings": 0,
+    "priorities": {
+      "high": 0,
+      "medium": 0,
+      "low": 0
+    },
+    "before_wait": 10.0,
+    "after_wait": 10.0,
+    "complete": true
+  },
+  "incomplete": {
+    "exit": 2,
+    "findings": 9,
+    "priorities": {
+      "high": 3,
+      "medium": 5,
+      "low": 1
+    },
+    "before_wait": 10.0,
+    "after_wait": 0.0,
+    "complete": false
+  }
+}

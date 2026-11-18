@@ -1,0 +1,1134 @@
+{
+  "before": {
+    "commands": [
+      {
+        "index": 0,
+        "argv": [
+          "display_msg",
+          "Starting the telemetry console"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {},
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 4,
+          "end_line": null
+        },
+        "raw": "    display_msg \"Starting the telemetry console\"",
+        "section": "startup"
+      },
+      {
+        "index": 1,
+        "argv": [
+          "devc-ser8250",
+          "-e",
+          "-b",
+          "115200",
+          "0x3f8,4"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "20f"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 6,
+          "end_line": null
+        },
+        "raw": "    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &",
+        "section": "startup"
+      },
+      {
+        "index": 2,
+        "argv": [
+          "waitfor",
+          "/dev/ser1",
+          "5.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/ser1 5.0",
+        "section": "startup"
+      },
+      {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      {
+        "index": 5,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "3.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 3.0",
+        "section": "startup"
+      },
+      {
+        "index": 6,
+        "argv": [
+          "ksh"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": true
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 11,
+          "end_line": null
+        },
+        "raw": "    [+session] ksh &",
+        "section": "startup"
+      }
+    ],
+    "coverage": [],
+    "sources": {
+      "baseline.build": "# Original illustrative QNX 8 startup fragment, not a bootable BSP.\n# The referenced executables are not distributed with this project.\n[+script] telemetry-startup = {\n    display_msg \"Starting the telemetry console\"\n    MODE=production\n    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &\n    waitfor /dev/ser1 5.0\n    reopen /dev/ser1 2.0\n    [pri=10r +critical] telemetry-agent --device /dev/ser1 &\n    waitfor /dev/telemetry 3.0\n    [+session] ksh &\n}\n"
+    },
+    "input": "baseline.build",
+    "root": "<project>/examples",
+    "mode": "buildfile"
+  },
+  "after": {
+    "commands": [
+      {
+        "index": 0,
+        "argv": [
+          "display_msg",
+          "Starting the telemetry console"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {},
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 4,
+          "end_line": null
+        },
+        "raw": "    display_msg \"Starting the telemetry console\"",
+        "section": "startup"
+      },
+      {
+        "index": 1,
+        "argv": [
+          "devc-ser8250",
+          "-e",
+          "-b",
+          "115200",
+          "0x3f8,4"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "20f"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": true,
+        "source": {
+          "file": "changed.build",
+          "line": 6,
+          "end_line": null
+        },
+        "raw": "    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &",
+        "section": "startup"
+      },
+      {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      {
+        "index": 4,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "15.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 15.0",
+        "section": "startup"
+      },
+      {
+        "index": 5,
+        "argv": [
+          "ksh"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": true
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": true,
+        "source": {
+          "file": "changed.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    [+session] ksh &",
+        "section": "startup"
+      }
+    ],
+    "coverage": [],
+    "sources": {
+      "changed.build": "# Original illustrative QNX 8 startup fragment with intentional regressions.\n# This is an analysis fixture, not a target image or a measured boot.\n[+script] telemetry-startup = {\n    display_msg \"Starting the telemetry console\"\n    MODE=diagnostic\n    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &\n    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose\n    reopen /dev/ser1 2.0\n    waitfor /dev/telemetry 15.0\n    [+session] ksh &\n}\n"
+    },
+    "input": "changed.build",
+    "root": "<project>/examples",
+    "mode": "buildfile"
+  },
+  "changes": [
+    {
+      "code": "environment_changed",
+      "level": "medium",
+      "title": "Effective environment changed for devc-ser8250",
+      "detail": "Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.",
+      "before": {
+        "index": 1,
+        "argv": [
+          "devc-ser8250",
+          "-e",
+          "-b",
+          "115200",
+          "0x3f8,4"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "20f"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 6,
+          "end_line": null
+        },
+        "raw": "    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 1,
+        "argv": [
+          "devc-ser8250",
+          "-e",
+          "-b",
+          "115200",
+          "0x3f8,4"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "20f"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": true,
+        "source": {
+          "file": "changed.build",
+          "line": 6,
+          "end_line": null
+        },
+        "raw": "    [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "barrier_removed",
+      "level": "high",
+      "title": "Built-in waitfor removed from recognized source",
+      "detail": "Review the lost path check or console reopen. Its removal does not by itself prove a startup fault.",
+      "before": {
+        "index": 2,
+        "argv": [
+          "waitfor",
+          "/dev/ser1",
+          "5.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/ser1 5.0",
+        "section": "startup"
+      },
+      "after": null,
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "order_changed",
+      "level": "high",
+      "title": "Relative command order changed for reopen",
+      "detail": "This command reverses order with another matched command. Review which launches occur before and after this path check. Line-number shifts caused only by insertions or deletions are not treated as reordering.",
+      "before": {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      "after": {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "environment_changed",
+      "level": "medium",
+      "title": "Effective environment changed for reopen",
+      "detail": "Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.",
+      "before": {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      "after": {
+        "index": 3,
+        "argv": [
+          "reopen",
+          "/dev/ser1",
+          "2.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 8,
+          "end_line": null
+        },
+        "raw": "    reopen /dev/ser1 2.0",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "order_changed",
+      "level": "medium",
+      "title": "Relative command order changed for telemetry-agent",
+      "detail": "This command reverses order with another matched command. Line-number shifts caused only by insertions or deletions are not treated as reordering.",
+      "before": {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "arguments_changed",
+      "level": "medium",
+      "title": "Arguments changed for telemetry-agent",
+      "detail": "The parsed command arguments differ. Their target-specific behavior has not been executed or validated.",
+      "before": {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "background_changed",
+      "level": "medium",
+      "title": "Foreground/background configuration changed for telemetry-agent",
+      "detail": "Review the trailing ampersand. An external foreground process that never exits can prevent later commands from running; background launch does not imply readiness.",
+      "before": {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "environment_changed",
+      "level": "medium",
+      "title": "Effective environment changed for telemetry-agent",
+      "detail": "Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.",
+      "before": {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "modifiers_changed",
+      "level": "medium",
+      "title": "Effective modifiers changed for telemetry-agent",
+      "detail": "Changed parsed modifiers: critical (removed). Documented defaults are normalized; unspecified priority and CPU settings are not guessed.",
+      "before": {
+        "index": 4,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1"
+        ],
+        "modifiers": {
+          "critical": true,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    [pri=10r +critical] telemetry-agent --device /dev/ser1 &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "wait_configuration_changed",
+      "level": "medium",
+      "title": "Built-in waitfor path or timeout changed",
+      "detail": "Review the path and configured maximum wait in the before/after source. The default timeout is 5.0 seconds; reopen defaults to /dev/console. A timeout does not establish that the dependency became ready.",
+      "before": {
+        "index": 5,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "3.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 3.0",
+        "section": "startup"
+      },
+      "after": {
+        "index": 4,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "15.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 15.0",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "environment_changed",
+      "level": "medium",
+      "title": "Effective environment changed for waitfor",
+      "detail": "Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.",
+      "before": {
+        "index": 5,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "3.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": false,
+        "source": {
+          "file": "baseline.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 3.0",
+        "section": "startup"
+      },
+      "after": {
+        "index": 4,
+        "argv": [
+          "waitfor",
+          "/dev/telemetry",
+          "15.0"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 9,
+          "end_line": null
+        },
+        "raw": "    waitfor /dev/telemetry 15.0",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "environment_changed",
+      "level": "medium",
+      "title": "Effective environment changed for ksh",
+      "detail": "Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.",
+      "before": {
+        "index": 6,
+        "argv": [
+          "ksh"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": true
+        },
+        "env": {
+          "MODE": "production"
+        },
+        "background": true,
+        "source": {
+          "file": "baseline.build",
+          "line": 11,
+          "end_line": null
+        },
+        "raw": "    [+session] ksh &",
+        "section": "startup"
+      },
+      "after": {
+        "index": 5,
+        "argv": [
+          "ksh"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": true
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": true,
+        "source": {
+          "file": "changed.build",
+          "line": 10,
+          "end_line": null
+        },
+        "raw": "    [+session] ksh &",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "POLICY_WAIT_LIMIT",
+      "level": "high",
+      "title": "Configured waits exceed the project limit",
+      "detail": "Known built-in waits total 17 s; the supplied policy permits 12 s. This is a configuration sum, not boot time.",
+      "before": null,
+      "after": null,
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    },
+    {
+      "code": "POLICY_BARRIER_MISSING",
+      "level": "high",
+      "title": "Missing earlier wait for /dev/ser1",
+      "detail": "The supplied contract requires a foreground internal waitfor for /dev/ser1 before every telemetry-agent launch. The current modeled sequence does not contain one. A declared wait can time out; this contract checks order, not successful readiness.",
+      "before": null,
+      "after": {
+        "index": 2,
+        "argv": [
+          "telemetry-agent",
+          "--device",
+          "/dev/ser1",
+          "--verbose"
+        ],
+        "modifiers": {
+          "critical": false,
+          "external": false,
+          "session": false,
+          "pri": "10r"
+        },
+        "env": {
+          "MODE": "diagnostic"
+        },
+        "background": false,
+        "source": {
+          "file": "changed.build",
+          "line": 7,
+          "end_line": null
+        },
+        "raw": "    [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose",
+        "section": "startup"
+      },
+      "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+    }
+  ],
+  "wait_before": {
+    "total_seconds": 10.0,
+    "complete": true,
+    "items": [
+      {
+        "command_index": 2,
+        "command": "waitfor",
+        "source": {
+          "file": "baseline.build",
+          "line": 7,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 5.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 3,
+        "command": "reopen",
+        "source": {
+          "file": "baseline.build",
+          "line": 8,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 2.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 5,
+        "command": "waitfor",
+        "source": {
+          "file": "baseline.build",
+          "line": 10,
+          "end_line": null
+        },
+        "path": "/dev/telemetry",
+        "seconds": 3.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      }
+    ]
+  },
+  "wait_after": {
+    "total_seconds": 17.0,
+    "complete": true,
+    "items": [
+      {
+        "command_index": 3,
+        "command": "reopen",
+        "source": {
+          "file": "changed.build",
+          "line": 8,
+          "end_line": null
+        },
+        "path": "/dev/ser1",
+        "seconds": 2.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      },
+      {
+        "command_index": 4,
+        "command": "waitfor",
+        "source": {
+          "file": "changed.build",
+          "line": 9,
+          "end_line": null
+        },
+        "path": "/dev/telemetry",
+        "seconds": 15.0,
+        "default_timeout": false,
+        "included": true,
+        "implementation": "builtin",
+        "reason": "",
+        "documentation": "https://www.qnx.com/developers/docs/8.0/com.qnx.doc.neutrino.utilities/topic/m/mkifs.html"
+      }
+    ]
+  },
+  "notes": [
+    "High, medium, and low are review priorities, not proven faults or safety ratings.",
+    "The configured wait ceiling sums recognized built-in timeout settings, including the 5.0-second default. It is not measured boot time or a total boot-time bound.",
+    "A successful stat() does not establish that a service is fully ready. After a wait timeout, a dependency may still be unavailable.",
+    "External executable behavior, foreground process termination, and target hardware state are not established by this source comparison.",
+    "Project review contracts were supplied explicitly for this comparison."
+  ],
+  "schema_version": "1.0"
+}

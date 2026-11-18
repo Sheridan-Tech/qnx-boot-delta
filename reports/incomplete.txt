@@ -1,0 +1,40 @@
+QNX Boot Delta — startup configuration review
+
+Baseline: baseline.build
+Current:  incomplete.build
+Coverage: INCOMPLETE — inspect gaps
+Review priorities: 3 high / 5 medium / 1 low
+Configured built-in wait ceilings: 10 s → 0 s (not measured boot time)
+
+[MEDIUM] command_removed: Internal display_msg removed from recognized source
+  before baseline.build:4: display_msg "Starting the telemetry console"
+  The internal command has no matched occurrence in the new recognized source.
+[MEDIUM] environment_changed: Effective environment changed for devc-ser8250
+  before baseline.build:6: [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+  after incomplete.build:3: [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+  Changed parsed environment keys: MODE (removed). Unresolved host or target values are not inferred.
+[HIGH] barrier_removed: Built-in waitfor removed from recognized source
+  before baseline.build:7: waitfor /dev/ser1 5.0
+  Review the lost path check or console reopen. Its removal does not by itself prove a startup fault.
+[HIGH] barrier_removed: Built-in reopen removed from recognized source
+  before baseline.build:8: reopen /dev/ser1 2.0
+  Review the lost path check or console reopen. Its removal does not by itself prove a startup fault.
+[MEDIUM] environment_changed: Effective environment changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after incomplete.build:5: telemetry-agent --device /dev/ser1 &
+  Changed parsed environment keys: MODE (removed). Unresolved host or target values are not inferred.
+[MEDIUM] modifiers_changed: Effective modifiers changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after incomplete.build:5: telemetry-agent --device /dev/ser1 &
+  Changed parsed modifiers: critical (removed), pri (removed). Documented defaults are normalized; unspecified priority and CPU settings are not guessed.
+[HIGH] barrier_removed: Built-in waitfor removed from recognized source
+  before baseline.build:10: waitfor /dev/telemetry 3.0
+  Review the lost path check or console reopen. Its removal does not by itself prove a startup fault.
+[MEDIUM] launch_removed: Launch of ksh removed from recognized source
+  before baseline.build:11: [+session] ksh &
+  This executable has no matched occurrence in the new recognized source; target runtime behavior is unverified.
+[LOW] launch_added: Launch of waitfor added to recognized source
+  after incomplete.build:4: [+external] waitfor /dev/ser1 5.0 100
+  The new recognized source contains an unmatched executable launch; successful startup is not established.
+
+Static review only: no SDK compilation, target execution, or boot-time validation.

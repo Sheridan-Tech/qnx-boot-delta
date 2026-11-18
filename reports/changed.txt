@@ -1,0 +1,62 @@
+QNX Boot Delta — startup configuration review
+
+Baseline: baseline.build
+Current:  changed.build
+Coverage: supported subset complete
+Review priorities: 4 high / 10 medium / 0 low
+Configured built-in wait ceilings: 10 s → 17 s (not measured boot time)
+
+[MEDIUM] environment_changed: Effective environment changed for devc-ser8250
+  before baseline.build:6: [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+  after changed.build:6: [pri=20f] devc-ser8250 -e -b 115200 0x3f8,4 &
+  Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.
+[HIGH] barrier_removed: Built-in waitfor removed from recognized source
+  before baseline.build:7: waitfor /dev/ser1 5.0
+  Review the lost path check or console reopen. Its removal does not by itself prove a startup fault.
+[HIGH] order_changed: Relative command order changed for reopen
+  before baseline.build:8: reopen /dev/ser1 2.0
+  after changed.build:8: reopen /dev/ser1 2.0
+  This command reverses order with another matched command. Review which launches occur before and after this path check. Line-number shifts caused only by insertions or deletions are not treated as reordering.
+[MEDIUM] environment_changed: Effective environment changed for reopen
+  before baseline.build:8: reopen /dev/ser1 2.0
+  after changed.build:8: reopen /dev/ser1 2.0
+  Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.
+[MEDIUM] order_changed: Relative command order changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after changed.build:7: [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+  This command reverses order with another matched command. Line-number shifts caused only by insertions or deletions are not treated as reordering.
+[MEDIUM] arguments_changed: Arguments changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after changed.build:7: [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+  The parsed command arguments differ. Their target-specific behavior has not been executed or validated.
+[MEDIUM] background_changed: Foreground/background configuration changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after changed.build:7: [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+  Review the trailing ampersand. An external foreground process that never exits can prevent later commands from running; background launch does not imply readiness.
+[MEDIUM] environment_changed: Effective environment changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after changed.build:7: [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+  Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.
+[MEDIUM] modifiers_changed: Effective modifiers changed for telemetry-agent
+  before baseline.build:9: [pri=10r +critical] telemetry-agent --device /dev/ser1 &
+  after changed.build:7: [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+  Changed parsed modifiers: critical (removed). Documented defaults are normalized; unspecified priority and CPU settings are not guessed.
+[MEDIUM] wait_configuration_changed: Built-in waitfor path or timeout changed
+  before baseline.build:10: waitfor /dev/telemetry 3.0
+  after changed.build:9: waitfor /dev/telemetry 15.0
+  Review the path and configured maximum wait in the before/after source. The default timeout is 5.0 seconds; reopen defaults to /dev/console. A timeout does not establish that the dependency became ready.
+[MEDIUM] environment_changed: Effective environment changed for waitfor
+  before baseline.build:10: waitfor /dev/telemetry 3.0
+  after changed.build:9: waitfor /dev/telemetry 15.0
+  Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.
+[MEDIUM] environment_changed: Effective environment changed for ksh
+  before baseline.build:11: [+session] ksh &
+  after changed.build:10: [+session] ksh &
+  Changed parsed environment keys: MODE (changed). Unresolved host or target values are not inferred.
+[HIGH] POLICY_WAIT_LIMIT: Configured waits exceed the project limit
+  Known built-in waits total 17 s; the supplied policy permits 12 s. This is a configuration sum, not boot time.
+[HIGH] POLICY_BARRIER_MISSING: Missing earlier wait for /dev/ser1
+  after changed.build:7: [pri=10r -critical] telemetry-agent --device /dev/ser1 --verbose
+  The supplied contract requires a foreground internal waitfor for /dev/ser1 before every telemetry-agent launch. The current modeled sequence does not contain one. A declared wait can time out; this contract checks order, not successful readiness.
+
+Static review only: no SDK compilation, target execution, or boot-time validation.

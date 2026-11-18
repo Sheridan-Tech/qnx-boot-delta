@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "max_configured_wait_seconds": 12,
+  "require_barriers": [
+    {"path": "/dev/ser1", "before_command": "telemetry-agent"}
+  ]
+}
