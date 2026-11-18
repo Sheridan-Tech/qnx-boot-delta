@@ -40,3 +40,7 @@ No third-party publication, competition entry acceptance, payment, or revenue is
 ## Publication preparation
 
 Absolute analysis-root paths in the three generated JSON reports were replaced with `<project>/examples`. Configuration observations and recorded test results are unchanged. Internal account and submission-preparation notes are excluded from this public checkout.
+
+## Additional Windows execution check
+
+On November 18, 2026, the published package was unpacked on Windows and its archive and file-manifest hashes were verified before execution. Python 3.14.7 ran the changed, corrected, and incomplete CLI examples with UTF-8 mode. Their exit codes were 1, 0, and 2 respectively, with no stderr output. The changed and corrected cases used the packaged review policy. See [the recorded outputs](windows-execution.json). This was a three-case host check; the full 77-test suite was not rerun on Windows. No QNX target execution occurred.

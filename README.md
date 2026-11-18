@@ -2,6 +2,8 @@
 
 **Review what a change does to the declared QNX 8 startup sequence.**
 
+[Watch the 1:56 demonstration](https://youtu.be/SWk63OZbRBE) · [Follow the reproduction tutorial](docs/TUTORIAL.md)
+
 Boot Delta is a working host-side Python tool that compares two startup configurations. It surfaces changed command order, readiness waits, timeout declarations, inherited environment, execution modifiers, and foreground/background settings. Command-level findings retain the original source locations and before/after declarations.
 
 Its focus is change review. A line diff can show that a global setting moved; Boot Delta shows the modeled launches affected by that setting. Optional project contracts make specific requirements executable in CI, such as retaining a serial-device wait before a consumer launch.
@@ -96,7 +98,7 @@ python -m unittest discover -s tests
 
 Tests exercise actual parser, comparison, policy, reporting, and CLI behavior. They include independent adversarial cases for scope, includes, ambiguous duplicates, unsupported input, nonfinite timeouts, source-text escaping, and output/input aliasing. The packaged validation report records the executed suite, environment, and integration outputs.
 
-Validation used a Linux host and original synthetic configuration fixtures. **No QNX SDP compilation, `mkifs` acceptance, QEMU run, hardware execution, or measured boot improvement is claimed.** The supplied buildfiles are illustrative startup fragments, not complete BSPs or executable images. Referenced QNX binaries are not distributed.
+The full test suite ran on a Linux host with original synthetic configuration fixtures. The three packaged CLI examples also returned their expected exit codes on Windows with Python 3.14.7; that Windows check did not rerun the full test suite. **No QNX SDP compilation, `mkifs` acceptance, QEMU run, hardware execution, or measured boot improvement is claimed.** The supplied buildfiles are illustrative startup fragments, not complete BSPs or executable images. Referenced QNX binaries are not distributed.
 
 The tool intentionally excludes image-file inventory, executable resolution, runtime behavior, and unsupported syntax. External script payloads, unresolved host expansions, opaque nested shell behavior, and other unsupported constructs produce coverage markers. Read [the supported-syntax contract](docs/SUPPORTED_SYNTAX.md) before relying on a report. “Complete” always means complete within this documented subset.
 
