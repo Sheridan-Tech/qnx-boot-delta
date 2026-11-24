@@ -19,6 +19,15 @@ def _same_file(first: Path, second: Path) -> bool:
     return first.exists() and second.exists() and first.samefile(second)
 
 
+def _write_console(stream, text: str) -> None:
+    # Preserve Unicode on capable terminals; escape only unrepresentable
+    # characters on legacy redirected Windows streams. Reports stay UTF-8.
+    encoding = getattr(stream, "encoding", None)
+    if encoding:
+        text = text.encode(encoding, errors="backslashreplace").decode(encoding)
+    stream.write(text)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="bootdelta", description="Review semantic changes in QNX 8 startup configuration. No commands are executed.")
@@ -58,13 +67,13 @@ def main(argv: list[str] | None = None) -> int:
         if args.html_path:
             args.html_path.parent.mkdir(parents=True, exist_ok=True)
             args.html_path.write_text(render_html(comparison), encoding="utf-8")
-        sys.stdout.write(render_text(comparison))
+        _write_console(sys.stdout, render_text(comparison))
         if not is_complete(comparison):
             return 2
         priorities = {"high": 3, "medium": 2, "low": 1, "never": 4}
         return int(any(priorities.get(change.level, 0) >= priorities[args.fail_on] for change in comparison.changes))
     except (OSError, UnicodeError, PolicyError, ValueError) as exc:
-        sys.stderr.write(f"bootdelta: {exc}\n")
+        _write_console(sys.stderr, f"bootdelta: {exc}\n")
         return 2
 
 

@@ -1,6 +1,6 @@
 # Supported analysis contract
 
-Boot Delta 0.1.0 compares startup declarations in a deliberately bounded subset of QNX 8 configuration. “Supported subset complete” refers to the scope below. It is not `mkifs` validation, image validation, or proof of target behavior.
+Boot Delta 0.1.1 compares startup declarations in a deliberately bounded subset of QNX 8 configuration. “Supported subset complete” refers to the scope below. It is not `mkifs` validation, image validation, or proof of target behavior.
 
 ## Two input modes
 

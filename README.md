@@ -2,7 +2,7 @@
 
 **Review what a change does to the declared QNX 8 startup sequence.**
 
-[Watch the 1:56 demonstration](https://youtu.be/SWk63OZbRBE) · [Follow the reproduction tutorial](docs/TUTORIAL.md)
+[Judge quickstart](docs/JUDGE_GUIDE.md) · [Watch the 1:56 demonstration](https://youtu.be/SWk63OZbRBE) · [Follow the reproduction tutorial](docs/TUTORIAL.md)
 
 Boot Delta is a working host-side Python tool that compares two startup configurations. It surfaces changed command order, readiness waits, timeout declarations, inherited environment, execution modifiers, and foreground/background settings. Command-level findings retain the original source locations and before/after declarations.
 
@@ -90,6 +90,15 @@ The default threshold is `--fail-on high`. Use `medium`, `low`, or `never` to ch
 
 The optional install path is `python -m pip install --no-build-isolation .`; running from the checkout needs no installation. Installation tooling may need locally available setuptools. The runtime has no third-party dependencies.
 
+## Quick reproducibility check
+
+```bash
+python -m unittest discover -s tests
+python tools/verify_examples.py
+```
+
+The verifier checks fresh reports, priorities, wait declaration sums and the expected exit codes for all three examples. The [judge guide](docs/JUDGE_GUIDE.md) maps the QNX-specific implementation and video timestamps to those outputs. Version 0.1.1 adds a console encoding fix, a regression test, optional browser verification and a cross-platform CI workflow. On November 24, 2026, the complete 78-test suite and three example cases passed on Windows, as did ten Chrome report interaction checks. The original demo and reports remain valid examples of unchanged analysis behavior. No target execution is claimed.
+
 ## Validation and limits
 
 ```bash
@@ -98,7 +107,7 @@ python -m unittest discover -s tests
 
 Tests exercise actual parser, comparison, policy, reporting, and CLI behavior. They include independent adversarial cases for scope, includes, ambiguous duplicates, unsupported input, nonfinite timeouts, source-text escaping, and output/input aliasing. The packaged validation report records the executed suite, environment, and integration outputs.
 
-The full test suite ran on a Linux host with original synthetic configuration fixtures. The three packaged CLI examples also returned their expected exit codes on Windows with Python 3.14.7; that Windows check did not rerun the full test suite. **No QNX SDP compilation, `mkifs` acceptance, QEMU run, hardware execution, or measured boot improvement is claimed.** The supplied buildfiles are illustrative startup fragments, not complete BSPs or executable images. Referenced QNX binaries are not distributed.
+The full test suite ran on a Linux host with original synthetic configuration fixtures. The three packaged CLI examples also returned their expected exit codes on Windows with Python 3.14.7; that initial Windows check did not rerun the full test suite; the November 24 follow-up did. **No QNX SDP compilation, `mkifs` acceptance, QEMU run, hardware execution, or measured boot improvement is claimed.** The supplied buildfiles are illustrative startup fragments, not complete BSPs or executable images. Referenced QNX binaries are not distributed.
 
 The tool intentionally excludes image-file inventory, executable resolution, runtime behavior, and unsupported syntax. External script payloads, unresolved host expansions, opaque nested shell behavior, and other unsupported constructs produce coverage markers. Read [the supported-syntax contract](docs/SUPPORTED_SYNTAX.md) before relying on a report. “Complete” always means complete within this documented subset.
 

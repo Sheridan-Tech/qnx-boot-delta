@@ -75,14 +75,24 @@ class CliTests(unittest.TestCase):
         self.assertEqual(0, corrected.returncode, corrected.stderr + corrected.stdout)
         self.assertIn("No modeled startup changes", corrected.stdout)
 
+    def test_legacy_console_encoding_preserves_exit_code_and_findings(self):
+        result = subprocess.run(
+            [sys.executable, "-m", "bootdelta", "examples/baseline.build",
+             "examples/changed.build", "--policy", "examples/review-policy.json"],
+            cwd=ROOT, capture_output=True, text=True, encoding="cp1252",
+            env={**os.environ, "PYTHONIOENCODING": "cp1252:strict"})
+        self.assertEqual(1, result.returncode, result.stderr)
+        self.assertIn("POLICY_BARRIER_MISSING", result.stdout)
+        self.assertIn(r"\u2192", result.stdout)
+
     def test_json_html_exports_and_nonfinite_free_json(self):
         with tempfile.TemporaryDirectory() as directory:
             json_path, html_path = Path(directory) / "report.json", Path(directory) / "report.html"
             result = self.run_cli("examples/baseline.build", "examples/changed.build", "--json", json_path, "--html", html_path)
             self.assertEqual(1, result.returncode, result.stderr + result.stdout)
-            data = json.loads(json_path.read_text(), parse_constant=lambda value: self.fail(value))
+            data = json.loads(json_path.read_text(encoding="utf-8"), parse_constant=lambda value: self.fail(value))
             self.assertEqual("1.0", data["schema_version"])
-            self.assertIn("<!doctype html>", html_path.read_text())
+            self.assertIn("<!doctype html>", html_path.read_text(encoding="utf-8"))
 
     def test_reports_cannot_overwrite_source_or_each_other(self):
         with tempfile.TemporaryDirectory() as directory:

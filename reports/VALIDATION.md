@@ -44,3 +44,8 @@ Absolute analysis-root paths in the three generated JSON reports were replaced w
 ## Additional Windows execution check
 
 On November 18, 2026, the published package was unpacked on Windows and its archive and file-manifest hashes were verified before execution. Python 3.14.7 ran the changed, corrected, and incomplete CLI examples with UTF-8 mode. Their exit codes were 1, 0, and 2 respectively, with no stderr output. The changed and corrected cases used the packaged review policy. See [the recorded outputs](windows-execution.json). This was a three-case host check; the full 77-test suite was not rerun on Windows. No QNX target execution occurred.
+
+
+## November 24, 2026 follow-up — version 0.1.1
+
+Fresh checkout on Windows, Python 3.14.7: the original full suite exposed two CLI failures when stdout was redirected to a legacy Windows encoding. The console writer now escapes only characters that the active encoding cannot represent; structured JSON and HTML remain UTF-8. The new CP1252 regression test passes, and the complete updated suite passes (78 tests). All three example cases pass the independent fresh-report verifier without a forced UTF-8 environment. Optional Playwright checks in headless Chrome 157 passed ten functional checks and recorded no JavaScript page errors. See [machine-readable evidence](judge-reproduction-windows.json) and [judge guide](../docs/JUDGE_GUIDE.md). The earlier Linux evidence is historical and remains unchanged. No licensed SDK, QEMU, or target validation was performed.

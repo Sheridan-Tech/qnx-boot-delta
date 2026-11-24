@@ -1,0 +1,39 @@
+{
+  "host": "Windows",
+  "python": "3.14.7",
+  "cases": {
+    "changed": {
+      "exit": 1,
+      "priorities": {
+        "medium": 10,
+        "high": 4
+      },
+      "wait_before": 10.0,
+      "wait_after": 17.0,
+      "wait_coverage_complete": true
+    },
+    "corrected": {
+      "exit": 0,
+      "priorities": {},
+      "wait_before": 10.0,
+      "wait_after": 10.0,
+      "wait_coverage_complete": true
+    },
+    "incomplete": {
+      "exit": 2,
+      "priorities": {
+        "medium": 5,
+        "high": 3,
+        "low": 1
+      },
+      "wait_before": 10.0,
+      "wait_after": 0.0,
+      "wait_coverage_complete": false
+    }
+  },
+  "browser": {
+    "browser": "157.0.8103.51",
+    "checks": 10,
+    "page_errors": []
+  }
+}
